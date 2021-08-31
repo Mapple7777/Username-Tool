@@ -1,6 +1,6 @@
 # Roblox Username Tool | Made By Mapple
 
-#How To Use:
+# How To Use:
 
 [1] Run requirements.cmd to ensure that you have everything installed (+ latest Python version)
 [2] Open UsernameTool.exe
