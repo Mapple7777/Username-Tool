@@ -1,0 +1,1 @@
+py -m pip install colorama requests urllib3
