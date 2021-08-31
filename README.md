@@ -6,10 +6,14 @@
 2. Open UsernameTool.exe
 3. Select Option
 
-1. Discord Server   | Opens my discord server link in your browser
-2. Check Username   | Enter a roblox username and it will check if it is taken or not
-3. Username Sniper  | Enter length of the usernames to check (3-4 are most likely all taken), Select if you want to log to file (Y/N), If you said Yes everything will be logged to Not_Taken.txt
-4. User Information | Select User ID or Username and enter whatyou selected and it will give you info on the given player
+[1] Discord Server   | Opens my discord server link in your browser
+
+[2]Check Username   | Enter a roblox username and it will check if it is taken or not
+
+
+[3]Username Sniper  | Enter length of the usernames to check (3-4 are most likely all taken), Select if you want to log to file (Y/N), If you said Yes everything will be logged to Not_Taken.txt
+
+[4]User Information | Select User ID or Username and enter whatyou selected and it will give you info on the given player
 
 # Note:
 
