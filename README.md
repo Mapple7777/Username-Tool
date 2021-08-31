@@ -3,7 +3,7 @@
 # How To Use:
 
 1. Run requirements.cmd to ensure that you have everything installed (+ latest Python version)
-2. Open UsernameTool.exe
+2. Open UsernameTool.exe or UsernameTool.py
 3. Select Option
 
 [1] Discord Server   | Opens my discord server link in your browser
