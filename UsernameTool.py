@@ -4,6 +4,7 @@ import os, webbrowser, requests,time,random
 from colorama import init, Fore, Back, Style
 from urllib.request import urlopen
 import json
+import threading
 
 def ResetTool():
     while 1:
@@ -13,12 +14,12 @@ def ResetTool():
 def Design():
     os.system(f"cls && title Roblox Username Tool, Made By Mapple")
     print(f"""
-{Fore.LIGHTBLUE_EX}  _____       _     _            {Fore.LIGHTMAGENTA_EX} _    _                                          {Fore.LIGHTBLUE_EX} _______          _ 
-{Fore.LIGHTBLUE_EX} |  __ \     | |   | |           {Fore.LIGHTMAGENTA_EX}| |  | |                                         {Fore.LIGHTBLUE_EX}|__   __|        | |
-{Fore.LIGHTBLUE_EX} | |__) |___ | |__ | | _____  __ {Fore.LIGHTMAGENTA_EX}| |  | |___  ___ _ __ _ __   __ _ _ __ ___   ___ {Fore.LIGHTBLUE_EX}   | | ___   ___ | |
-{Fore.LIGHTBLUE_EX} |  _  // _ \| '_ \| |/ _ \ \/ / {Fore.LIGHTMAGENTA_EX}| |  | / __|/ _ \ '__| '_ \ / _` | '_ ` _ \ / _ \{Fore.LIGHTBLUE_EX}   | |/ _ \ / _ \| |
-{Fore.LIGHTBLUE_EX} | | \ \ (_) | |_) | | (_) >  <  {Fore.LIGHTMAGENTA_EX}| |__| \__ \  __/ |  | | | | (_| | | | | | |  __/{Fore.LIGHTBLUE_EX}   | | (_) | (_) | |
-{Fore.LIGHTBLUE_EX} |_|  \_\___/|_.__/|_|\___/_/\_\ {Fore.LIGHTMAGENTA_EX} \____/|___/\___|_|  |_| |_|\__,_|_| |_| |_|\___|{Fore.LIGHTBLUE_EX}   |_|\___/ \___/|_|
+{Fore.LIGHTBLUE_EX}  _____       _     _            {Fore.LIGHTMAGENTA_EX} _    _                                          {Fore.LIGHTBLUE_EX} _______          _ {Fore.LIGHTMAGENTA_EX}           ___  
+{Fore.LIGHTBLUE_EX} |  __ \     | |   | |           {Fore.LIGHTMAGENTA_EX}| |  | |                                         {Fore.LIGHTBLUE_EX}|__   __|        | |{Fore.LIGHTMAGENTA_EX}          |__ \ 
+{Fore.LIGHTBLUE_EX} | |__) |___ | |__ | | _____  __ {Fore.LIGHTMAGENTA_EX}| |  | |___  ___ _ __ _ __   __ _ _ __ ___   ___ {Fore.LIGHTBLUE_EX}   | | ___   ___ | |{Fore.LIGHTMAGENTA_EX}  __   __    ) |
+{Fore.LIGHTBLUE_EX} |  _  // _ \| '_ \| |/ _ \ \/ / {Fore.LIGHTMAGENTA_EX}| |  | / __|/ _ \ '__| '_ \ / _` | '_ ` _ \ / _ \{Fore.LIGHTBLUE_EX}   | |/ _ \ / _ \| |{Fore.LIGHTMAGENTA_EX}  \ \ / /   / /
+{Fore.LIGHTBLUE_EX} | | \ \ (_) | |_) | | (_) >  <  {Fore.LIGHTMAGENTA_EX}| |__| \__ \  __/ |  | | | | (_| | | | | | |  __/{Fore.LIGHTBLUE_EX}   | | (_) | (_) | |{Fore.LIGHTMAGENTA_EX}   \ V /   / /_ 
+{Fore.LIGHTBLUE_EX} |_|  \_\___/|_.__/|_|\___/_/\_\ {Fore.LIGHTMAGENTA_EX} \____/|___/\___|_|  |_| |_|\__,_|_| |_| |_|\___|{Fore.LIGHTBLUE_EX}   |_|\___/ \___/|_|{Fore.LIGHTMAGENTA_EX}    \_/   |____| 
 {Fore.LIGHTBLUE_EX} Made By Mapple
     """)
     print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTCYAN_EX}1{Fore.LIGHTWHITE_EX}] Discord Server')
@@ -46,27 +47,44 @@ def Design():
             print(f"{Fore.LIGHTRED_EX}An Error Occured")
 
     elif answer == "3":
+        
         print("Opened Username Sniper")
         length        = input(f"{Fore.LIGHTWHITE_EX}╚══[{Fore.LIGHTCYAN_EX}Length{Fore.LIGHTWHITE_EX}]══> ")
-        logtofilebool = input(f"{Fore.LIGHTWHITE_EX}╚══[{Fore.LIGHTCYAN_EX}Log To File? (Y/N){Fore.LIGHTWHITE_EX}]══> ")
+        logtofilebool = input(f"{Fore.LIGHTWHITE_EX}╚══[{Fore.LIGHTCYAN_EX}Log To File? (Y/N){Fore.LIGHTWHITE_EX}]══> ").upper()
+        nottakenbool = input(f"{Fore.LIGHTWHITE_EX}╚══[{Fore.LIGHTCYAN_EX}Only Display Not-Taken (Y/N){Fore.LIGHTWHITE_EX}]══> ").upper()
+        xthread       = input(f"{Fore.LIGHTWHITE_EX}╚══[{Fore.LIGHTCYAN_EX}Threads{Fore.LIGHTWHITE_EX}]══> ")
         LogFile       = "Not_Taken.txt"
         AllowedChars  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123457890"
-        try: 
-            while True:
-                final = ''.join(random.choice(AllowedChars) for x in range(int(length)))
-                r = requests.get(f"https://auth.roblox.com/v2/usernames/validate?request.username={final}&request.birthday=01%2F01%2F2000&request.context=Signup").json()
-                if r['code'] == 0:
-                    if logtofilebool == "Y":
-                        print(f"{Fore.LIGHTGREEN_EX}Username: " + final + " | Status: Not Taken")
-                        with open(LogFile, "a") as f:
-                            f.write(final+"\n")
-                    elif logtofilebool == "N":
-                        print(f"{Fore.LIGHTGREEN_EX}Username: " + final + " | Status: Not Taken")
+        def sniper():
+            try: 
+                while True:
+                    final = ''.join(random.choice(AllowedChars) for x in range(int(length)))
+                    r = requests.get(f"https://auth.roblox.com/v2/usernames/validate?request.username={final}&request.birthday=01%2F01%2F2000&request.context=Signup").json()
+                    if r['code'] == 0:
+                        if logtofilebool == "Y":
+                            print(f"{Fore.LIGHTGREEN_EX}Username: " + final + " | Status: Not Taken")
+                            with open(LogFile, "a") as f:
+                                f.write(final+"\n")
+                        elif logtofilebool == "N":
+                            print(f"{Fore.LIGHTGREEN_EX}Username: " + final + " | Status: Not Taken")
+                    else:
+                        if nottakenbool == "N":
+                            print(f"{Fore.LIGHTRED_EX}Username: " + final + " | Status: Taken")
+            except:
+                print(f"{Fore.LIGHTRED_EX}An Error Occured")
 
-                else:
-                    print(f"{Fore.LIGHTRED_EX}Username: " + final + " | Status: Taken")
-        except:
-            print(f"{Fore.LIGHTRED_EX}An Error Occured")
+        Threads = []
+
+        for i in range(int(xthread)):
+            t = threading.Thread(target=sniper)
+            t.daemon = True
+            Threads.append(t)
+
+        for i in range(int(xthread)):
+            Threads[i].start()
+
+        for i in range(int(xthread)):
+            Threads[i].join()
 
     elif answer == "4":
         print("[!] Select Option")
